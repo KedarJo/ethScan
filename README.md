@@ -1,6 +1,7 @@
-#A fun ETH Scan with Web3
-This is a simple Python3 utility that connects with Infura remote node via API and downloads the specified number of latest blocks. This is meant to get a recent slice of ETH blockchain data.
+A fun ETH Scan with Web3
+========================
 
+This is a simple Python3 utility that connects with Infura remote node via API and downloads the specified number of latest blocks. This is meant to get a recent slice of ETH blockchain data.
 
 1. Run ethScan first to access Eth and dump data to sqlite
 ```
