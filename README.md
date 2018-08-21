@@ -21,6 +21,7 @@ $ python3 -m http.server
 ```
 Sample:
 ![Sample Graph](https://github.com/KedarJo/ethScan/blob/master/ethGraph.png)
+Here we observe that the nodes which seem to have some clustering are exchange nodes
 
 ---
 4. Miner distribution D3 pie chart
