@@ -1,0 +1,12 @@
+ethMiner = [
+	{"name": "0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8", "value":31},
+	{"name": "0x5A0b54D5dc17e0AadC383d2db43B0a0D3E029c4c", "value":21},
+	{"name": "0x829BD824B016326A401d083B33D092293333A830", "value":16},
+	{"name": "0xb2930B35844a230f00E51431aCAe96Fe543a0347", "value":10},
+	{"name": "0x52bc44d5378309EE2abF1539BF71dE1b7d7bE3b5", "value":10},
+	{"name": "0x52E44f279f4203Dcf680395379E5F9990A69f13c", "value":2},
+	{"name": "0x2a65Aca4D5fC5B5C859090a6c34d164135398226", "value":2},
+	{"name": "0x4Bb96091Ee9D802ED039C4D1a5f6216F90f81B01", "value":1},
+	{"name": "0x70AEc4B9CFFA7b55C0711b82DD719049d615E21d", "value":1},
+	{"name": "0x6a7a43BE33ba930fE58F34E07D0ad6bA7ADB9B1F", "value":1},
+]
