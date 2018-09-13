@@ -1,23 +1,136 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<head>
+  <style>
 
-.links line {
-  stroke: #999;
-  stroke-opacity: 0.7;
+    .links line {
+      stroke: #999;
+      stroke-opacity: 0.7;
+    }
+
+    .nodes circle {
+      stroke: #fff;
+      stroke-width: 1.5px;
+    }
+
+  </style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<button type="button" onClick="setCanvasDim()">Click Me!</button>
+<div>Need this to be above</div>
+<div>Need this to be above</div>
+<div>Need this to be above</div>
+<div>
+  <canvas id="graph" ></canvas>
+</div>
+<div>Need this to be below</div>
+
+<script>
+  d3sim();
+  function setCanvasDim() {
+    let graph = document.getElementById('graph')
+    graph.width=window.innerWidth ;
+    graph.height=window.innerHeight * 0.65;
+    d3sim();
+  }
+
+function d3sim() {
+
+
+
+var canvas = document.querySelector("#graph"),
+    context = canvas.getContext("2d"),
+    width = canvas.width,
+    height = canvas.height;
+
+console.log('d3sim() ' + width + ' ' + height)
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+d3.json("ethGraph.json", function(error, graph) {
+  if (error) throw error;
+
+  simulation
+      .nodes(graph.nodes)
+      .on("tick", ticked);
+
+  simulation.force("link")
+      .links(graph.links);
+
+  d3.select(canvas)
+      .call(d3.drag()
+          .container(canvas)
+          .subject(dragsubject)
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+  function ticked() {
+    context.clearRect(0, 0, width, height);
+
+    context.beginPath();
+    graph.links.forEach(drawLink);
+    context.strokeStyle = "#aaa";
+    context.stroke();
+
+    context.beginPath();
+    graph.nodes.forEach(drawNode);
+    context.fill();
+    context.strokeStyle = "#fff";
+    context.stroke();
+  }
+
+  function dragsubject() {
+    return simulation.find(d3.event.x, d3.event.y);
+  }
+})
+
+
+function dragstarted() {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d3.event.subject.fx = d3.event.subject.x;
+  d3.event.subject.fy = d3.event.subject.y;
 }
 
-.nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
+function dragged() {
+  d3.event.subject.fx = d3.event.x;
+  d3.event.subject.fy = d3.event.y;
 }
 
-</style>
-<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+function dragended() {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d3.event.subject.fx = null;
+  d3.event.subject.fy = null;
+}
+
+function drawLink(d) {
+  //console.log(d.value);
+  //context.lineWidth=d.value / 2;
+  context.moveTo(d.source.x, d.source.y);
+  context.lineTo(d.target.x, d.target.y);
+}
+
+function drawNode(d) {
+  context.moveTo(d.x + 3, d.y);
+  context.arc(d.x, d.y, 7, 0, 2 * Math.PI);
+}
+
+}
+</script>
+
+</body>
+
+<!-- this was with SVG
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
     document.write("<p>Graph of value exchange on ETH mainnet nodes</p>");
 </script>
-<svg width="900" height="900"></svg>
+<svg style="width:960; height:800;"></svg>
 
 <script type="text/javascript">
 
@@ -30,23 +143,23 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+    .force("center", d3.forceCenter(width/2, height/2)); //width/2, height/2
 
 d3.json("ethGraph.json", function(error, graph) {
   if (error) throw error;
 
   var link = svg.append("g")
       .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("line")
+      .selectAll("line")
+      .data(graph.links)
+      .enter().append("line")
       .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
   var node = svg.append("g")
       .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
-    .enter().append("circle")
+      .selectAll("circle")
+      .data(graph.nodes)
+      .enter().append("circle")
       .attr("r", 7)
       .attr("fill", function(d) { return color(d.group); })
       .call(d3.drag()
@@ -95,4 +208,5 @@ function dragended(d) {
 }
 
 </script>
-</head>
+
+-->
